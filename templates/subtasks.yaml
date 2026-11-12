@@ -1,0 +1,31 @@
+subtasks:
+  - summary: Review release notes and assess risk
+    description: |
+      Check for breaking changes, required upgrade path, known issues and security fixes.
+  - summary: Download firmware, verify checksum and archive
+    description: |
+      Download the firmware image, verify its checksum and store it in the internal archive.
+      Keep the previous firmware available for rollback.
+  - summary: Test firmware in AV lab
+    description: |
+      Checklist: recording, streaming, all input types, CMS/scheduling, network and authentication.
+      Record the result on this ticket. Passing this task gates the device tasks.
+  - summary: Note relevant changes in the device model documentation page
+    description: |
+      Add a "Changes in this version" section to the Confluence page for this model.
+  - summary: Update Grafana dashboard baseline firmware
+    description: |
+      Set the new version as baseline so devices behind it become visible.
+  - summary: Create tasks for devices that need an update
+    description: |
+      After lab sign-off, list devices below baseline and create one task per device
+      with location, current version, target version and maintenance window.
+  - summary: Rollback plan
+    description: |
+      Confirm the previous firmware image and the steps to revert a device.
+  - summary: Communicate update schedule to stakeholders
+    description: |
+      Announce the maintenance window to the teams affected.
+  - summary: Post-update verification and close-out
+    description: |
+      Confirm every updated device reports the new version, then close the parent ticket.

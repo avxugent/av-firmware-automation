@@ -1,0 +1,52 @@
+name: firmware-watch
+
+on:
+  workflow_dispatch:
+    inputs:
+      vendor:
+        description: Vendor (e.g. Epiphan)
+        required: true
+      model:
+        description: Device model (e.g. Pearl-2)
+        required: true
+      version:
+        description: Firmware version (e.g. 4.24.4)
+        required: true
+      notes_url:
+        description: Link to the release notes
+        required: false
+        default: ""
+      date:
+        description: Release date (YYYY-MM-DD)
+        required: false
+        default: ""
+      apply:
+        description: Create the Jira issues (unchecked = dry run)
+        type: boolean
+        default: false
+
+jobs:
+  create-ticket:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Run pipeline
+        env:
+          PYTHONPATH: src
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          VENDOR: ${{ inputs.vendor }}
+          MODEL: ${{ inputs.model }}
+          VERSION: ${{ inputs.version }}
+          NOTES_URL: ${{ inputs.notes_url }}
+          RELEASE_DATE: ${{ inputs.date }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          args=(--vendor "$VENDOR" --model "$MODEL" --version "$VERSION"
+                --notes-url "$NOTES_URL" --date "$RELEASE_DATE")
+          if [ "$APPLY" = "true" ]; then args+=(--apply); fi
+          python -m fwwatch "${args[@]}"

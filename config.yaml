@@ -1,0 +1,7 @@
+jira:
+  base_url: https://universiteitgent.atlassian.net
+  project_key: RECORD
+  parent_issue_type: Task
+  subtask_issue_type: Sub-task
+  extra_labels:
+    - firmware
