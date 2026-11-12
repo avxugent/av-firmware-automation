@@ -1,4 +1,5 @@
 """Minimal Jira Cloud REST client (v3). Only what the pipeline needs."""
+
 from __future__ import annotations
 
 import requests

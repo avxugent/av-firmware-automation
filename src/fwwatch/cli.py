@@ -1,4 +1,5 @@
 """Command line entry point: python -m fwwatch ..."""
+
 from __future__ import annotations
 
 import argparse
@@ -25,8 +26,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--date", default="")
     p.add_argument("--config", default=str(ROOT / "config.yaml"))
     p.add_argument("--template", default=str(ROOT / "templates" / "subtasks.yaml"))
-    p.add_argument("--apply", action="store_true",
-                   help="Actually create Jira issues (default is a dry run)")
+    p.add_argument(
+        "--apply", action="store_true", help="Actually create Jira issues (default is a dry run)"
+    )
     args = p.parse_args(argv)
 
     cfg = yaml.safe_load(Path(args.config).read_text())
