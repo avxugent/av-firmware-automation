@@ -1,4 +1,5 @@
 """Turn a Release into a Jira parent task plus subtasks (idempotent)."""
+
 from __future__ import annotations
 
 from .jira import JiraClient, adf
@@ -34,8 +35,9 @@ def subtask_fields(parent_key: str, release: Release, cfg: dict, item: dict) -> 
     }
 
 
-def run(release: Release, cfg: dict, template: list[dict],
-        client: JiraClient | None, apply: bool) -> dict:
+def run(
+    release: Release, cfg: dict, template: list[dict], client: JiraClient | None, apply: bool
+) -> dict:
     """Create the ticket tree. Returns a report dict; never writes unless apply=True."""
     project = cfg["jira"]["project_key"]
     report = {"release": release.summary, "label": release.label, "applied": apply}
@@ -55,8 +57,7 @@ def run(release: Release, cfg: dict, template: list[dict],
 
     parent_key = client.create_issue(parent)
     created = [
-        client.create_issue(subtask_fields(parent_key, release, cfg, item))
-        for item in template
+        client.create_issue(subtask_fields(parent_key, release, cfg, item)) for item in template
     ]
     report.update(status="created", parent=parent_key, subtasks=created)
     return report
