@@ -13,6 +13,10 @@ Phase 1 only has a manual trigger; vendor detection adapters (email, vendor API)
 - `src/fwwatch/pipeline.py`: builds Jira payloads, `run()` is idempotent
 - `src/fwwatch/jira.py`: thin Jira Cloud REST v3 client
 - `src/fwwatch/cli.py`: CLI entry point (`python -m fwwatch`)
+- `src/fwwatch/devices.py`: picks devices below a target firmware version (pure logic)
+- `.claude/skills/firmware-device-tasks/`: Claude Code skill that creates per-device Jira tasks
+  from SAM data (must run on a machine that can reach sam.ugent.be)
+- `docs/jira-automation.md`: spec of the Jira Automation rules that create the release ticket tree
 - `templates/subtasks.yaml`: the subtask list; edit this to change the process
 - `config.yaml`: Jira project key and issue type names
 - `.github/workflows/firmware-watch.yml`: manual trigger; `ci.yml`: checks on every PR
